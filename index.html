@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaTown</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #87CEEB;
+        }
+        .city {
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+            height: 600px;
+            background-color: #2E8B57;
+            position: relative;
+        }
+        .house {
+            width: 100px;
+            height: 100px;
+            background-color: #8B4513;
+            margin: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        .house:hover {
+            background-color: #A0522D;
+        }
+        .inside-house {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="city" id="city"></div>
+    <div class="inside-house" id="inside-house">
+        <div>Inside House <span id="house-number"></span></div>
+        <button onclick="exitHouse()">Exit</button>
+    </div>
+
+    <script>
+        class House {
+            constructor(number) {
+                this.number = number;
+                this.element = document.createElement('div');
+                this.element.className = 'house';
+                this.element.textContent = `House ${number}`;
+                this.element.addEventListener('click', () => this.enterHouse());
+            }
+
+            enterHouse() {
+                document.getElementById('house-number').textContent = this.number;
+                document.getElementById('inside-house').style.display = 'flex';
+            }
+
+            render(parent) {
+                parent.appendChild(this.element);
+            }
+        }
+
+        class City {
+            constructor() {
+                this.houses = [];
+                this.cityElement = document.getElementById('city');
+            }
+
+            addHouse(house) {
+                this.houses.push(house);
+                house.render(this.cityElement);
+            }
+        }
+
+        function exitHouse() {
+            document.getElementById('inside-house').style.display = 'none';
+        }
+
+        const city = new City();
+        for (let i = 1; i <= 4; i++) {
+            const house = new House(i);
+            city.addHouse(house);
+        }
+    </script>
+</body>
+</html>
